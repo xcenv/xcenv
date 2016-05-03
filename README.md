@@ -36,15 +36,11 @@ Copy the following into your shell profile file:
 
 - [ ] Add XCODE_VERSION support
 - [ ] Add support to search from location of the xcodeproj/xcworkspace
-- [ ] Init command creates shims of xcode binaries in /usr/bin that contain "libxcselect.dylib"  
 - [ ] Add more to README  
-  - [ ] Add instructions for use  
   - [ ] Add instructions for Development  
-  - [ ] Add How It Works section
   - [ ] Add Environment Variables 
 - [ ] Support Homebrew installation  
 - [ ] Add autocomplete support
-- [ ] Add support for non-bash Shells
 - [ ] Add Usage and Sumarry to all commands
 - [ ] Add Unit Tests with [Bats](https://github.com/sstephenson/bats)
 - [ ] Add Travis CI
