@@ -4,3 +4,81 @@
 set -e
 [ -n "$XCENV_DEBUG" ] && set -x
 
+print=""
+for args in "$@"
+do
+  if [ "$args" = "-" ]; then
+    print=1
+    shift
+  fi
+done
+
+shell="$1"
+if [ -z "$shell" ]; then
+  shell="$(ps -p "$PPID" -o 'args=' 2>/dev/null || true)"
+  shell="${shell%% *}"
+  shell="${shell##-}"
+  shell="${shell:-$SHELL}"
+  shell="${shell##*/}"
+fi
+
+root="${0%/*}/.."
+
+if [ -z "$print" ]; then
+  case "$shell" in
+  bash )
+    if [ -f "${HOME}/.bashrc" ] && [ ! -f "${HOME}/.bash_profile" ]; then
+      profile='~/.bashrc'
+    elif [ -f "${HOME}/.bash_profile" ]; then
+      profile='~/.bash_profile'
+    else
+	  profile='~/.profile'
+    fi
+    ;;
+  zsh )
+    profile='~/.zshrc'
+    ;;
+  ksh )
+    profile='~/.profile'
+    ;;
+  fish )
+    profile='~/.config/fish/config.fish'
+    ;;
+  * )
+    profile='your profile'
+    ;;
+  esac
+
+  { echo "# Load xcenv automatically by appending"
+    echo "# the following to ${profile}:"
+    echo
+    case "$shell" in
+    fish )
+	  echo "setenv PATH '${XCENV_ROOT}/shims' \$PATH"
+      echo 'status --is-interactive; and . (xcenv init -|psub)'
+      ;;
+    * )
+	  echo 'export PATH="${XCENV_ROOT}/bin:$PATH"'
+      echo 'eval "$(xcenv init -)"'
+      ;;
+    esac
+    echo
+  } >&2
+
+  exit 1
+fi
+
+mkdir -p "${XCENV_ROOT}/"{shims,versions}
+
+case "$shell" in
+fish )
+  echo "setenv PATH '${XCENV_ROOT}/shims' \$PATH"
+  echo "setenv RBENV_SHELL $shell"
+;;
+* )
+  echo 'export PATH="'${XCENV_ROOT}'/shims:${PATH}"'
+  echo "export RBENV_SHELL=$shell"
+;;
+esac
+
+echo 'command xcenv rehash 2>/dev/null'
