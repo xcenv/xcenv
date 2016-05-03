@@ -1,0 +1,6 @@
+#!/bin/sh
+# Summary: Initialize the shims
+
+set -e
+[ -n "$XCENV_DEBUG" ] && set -x
+

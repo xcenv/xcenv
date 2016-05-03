@@ -1,0 +1,9 @@
+#!/bin/sh
+# Summary: Display the version of xcenv
+
+set -e
+[ -n "$XCENV_DEBUG" ] && set -x
+
+version="0.0.1"
+
+echo "xcenv $version"

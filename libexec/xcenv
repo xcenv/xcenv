@@ -1,0 +1,76 @@
+#!/bin/sh
+
+set -e
+unset CDPATH
+
+if [ "$1" == "--debug" ]; then
+  export XCENV_DEBUG=1
+  shift
+fi
+
+if [ -n "$XCENV_DEBUG" ]; then
+  export PS4='+ [${BASH_SOURCE##*/}:${LINENO}] '
+  set -x
+fi
+
+abort() {
+  { if [ "$#" -eq 0 ]; then cat -
+    else echo "rbenv: $*"
+    fi
+  } >&2
+  exit 1
+}
+
+if [ -z "${XCENV_ROOT}" ]; then
+  XCENV_ROOT="${HOME}/.xcenv"
+else
+  XCENV_ROOT="${RBENV_ROOT%/}"
+fi
+export XCENV_ROOT
+
+if [ -z "${XCENV_DIR}" ]; then
+  XCENV_DIR="$PWD"
+else
+  cd "$XCENV_DIR" 2>/dev/null || abort "cannot change working directory to \`$XCENV_DIR'"
+  XCENV_DIR="$PWD"
+  cd "$OLDPWD"
+fi
+export XCENV_DIR
+
+
+shopt -s nullglob
+
+bin_path="$( cd "$( dirname "$0" )" && pwd )"
+for plugin_bin in "${XCENV_ROOT}/plugins/"*/bin; do
+  PATH="${plugin_bin}:${PATH}"
+done
+export PATH="${bin_path}:${PATH}"
+
+shopt -u nullglob
+
+
+command="$1"
+case "$command" in
+"" )
+  { xcenv---version
+    xcenv-help
+  } | abort
+  ;;
+-v | --version )
+  exec xcenv---version
+  ;;
+-h | --help )
+  exec xcenv-help
+  ;;
+* )
+  command_path="$(command -v "xcenv-$command" || true)"
+  [ -n "$command_path" ] || abort "no such command \`$command'"
+
+  shift 1
+  if [ "$1" = --help ]; then
+    exec xcenv-help "$command"
+  else
+    exec "$command_path" "$@"
+  fi
+  ;;
+esac

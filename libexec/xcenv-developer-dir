@@ -1,0 +1,118 @@
+#!/bin/sh
+# Summary: Show the current Xcode DEVELOPER_DIR value
+	# Usage: xcenv developer-dir
+
+set -e
+[ -n "$XCENV_DEBUG" ] && set -x
+
+DIR="$( cd "$( dirname "$0" )" && pwd )"
+
+read_xcode_version_from_dir()
+{
+	POSSIBLE_FILE="$1/.xcode-version"
+	if [[ -e "$POSSIBLE_FILE" ]]; then
+		echo $(cat "$POSSIBLE_FILE")
+	fi
+}
+
+find_xcode_version_from_pwd()
+{
+	CURRENT_SEARCH_DIR=$(pwd)
+	XCODE_VERSION=""
+
+	while [[ "$XCODE_VERSION" == "" && "$CURRENT_SEARCH_DIR" != "/" ]]; do
+		XCODE_VERSION=$(read_xcode_version_from_dir "$CURRENT_SEARCH_DIR")
+		CURRENT_SEARCH_DIR=$(dirname "$CURRENT_SEARCH_DIR")
+	done
+
+	echo $XCODE_VERSION
+}
+
+system_xcode_dir()
+{
+	echo $(/usr/bin/xcode-select -p)
+}
+
+find_default_xcode_version()
+{
+	XCODE_VERSION=$(read_xcode_version_from_dir "$DIR/..")
+	
+	if [[ "$XCODE_VERSION" == "" ]]; then
+		XCODE_VERSION=$(system_xcode_dir)
+	fi
+	
+	echo $XCODE_VERSION
+}
+
+get_xcode_version_value()
+{
+	XCODE_VERSION=$(find_xcode_version_from_pwd)
+
+	if [[ "$XCODE_VERSION" == "" ]]; then
+		XCODE_VERSION=$(find_default_xcode_version)
+	fi
+	
+	echo $XCODE_VERSION
+}
+
+get_value_from_app()
+{
+	APP=$1
+	KEY=$2
+	
+	INFO_PLIST="$APP/Contents/Info.plist"
+	PLIST_BUDDY="/usr/libexec/PlistBuddy"
+	
+	echo $($PLIST_BUDDY -c "Print :$KEY" "$INFO_PLIST")
+}
+
+find_xcode_app_from_version()
+{
+	XCODE_APP=""
+	XCODE_VERSION=$1
+	
+	XCODE_LOCATIONS=/Applications
+	
+	shopt -s nullglob
+	
+	for APP in "$XCODE_LOCATIONS"/*.app; do 
+		APP_NAME=$(get_value_from_app "$APP" "CFBundleName")
+		if [[ "$APP_NAME" == "Xcode" ]]; then 
+			VERSION=$(get_value_from_app "$APP" "CFBundleShortVersionString")
+			if [[ "$VERSION" =~ ^$XCODE_VERSION$ ]]; then
+				XCODE_APP="$APP"
+				break;
+			fi
+		fi
+	done
+	
+	echo $XCODE_APP
+}
+
+find_developer_dir_from_version()
+{
+	XCODE_APP=$(find_xcode_app_from_version $1)
+	XCODE_DIR=$(system_xcode_dir)
+	
+	if [[ -d "$XCODE_APP" ]]; then
+		XCODE_DIR="$XCODE_APP/Contents/Developer"
+	fi
+	
+	echo $XCODE_DIR
+}
+
+get_developer_dir_path()
+{
+	XCODE_VERSION=$(get_xcode_version_value)
+
+	# if XCODE_VERSION is a directory assume it's what we want
+	if [[ -d "$XCODE_VERSION" ]]; then
+		echo $XCODE_VERSION
+	else
+		echo $(find_developer_dir_from_version $XCODE_VERSION)
+	fi
+}
+
+echo $(get_developer_dir_path)
+
+

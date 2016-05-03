@@ -1,0 +1,18 @@
+#!/bin/sh
+# Summary: List all available xcenv commands
+# Usage: xcenv commands
+
+set -e
+[[ -n "$XCENV_DEBUG" ] && set -x
+
+IFS=: paths=($PATH)
+
+shopt -s nullglob
+
+{ for path in "${paths[@]}"; do
+    for command in "${path}/xcenv-"*; do
+      command="${command##*xcenv-}"
+      echo ${command}
+    done
+  done
+} | sort | uniq
