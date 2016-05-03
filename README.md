@@ -2,6 +2,23 @@
 
 # Groom your Xcode environment with xcenv.
 
+## Table Of Contents
+
+* [Installation](#installation)
+  * [Manual Installation](#manual_installation)
+
+## Installation
+
+### Basic Git Installation
+
+To install xcenv:
+
+	$ git clone git@github.com:xcenv/xcenv.git ~/.xcenv
+
+Copy the following into your shell profile file:
+
+	export PATH="$HOME/.xcenv/bin:$PATH"
+	eval "$(xcenv init -)"
 
 ## TODO
 
@@ -9,7 +26,6 @@
 - [ ] Add more to README  
   - [ ] Add instructions for use  
   - [ ] Add instructions for Development  
-  - [ ] Add instructions for installation 
   - [ ] Add How It Works section
   - [ ] Add Environment Variables 
 - [ ] Support Homebrew installation  
