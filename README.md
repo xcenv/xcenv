@@ -34,18 +34,20 @@ Copy the following into your shell profile file:
 
 ## TODO
 
+- [ ] Add local command
+- [ ] Add shell command
+- [ ] Add global command
+- [ ] Add shims command 
+- [ ] Add open command
+- [ ] Add version commands (name, path)
 - [ ] Add XCODE_VERSION support
 - [ ] Add support to search from location of the xcodeproj/xcworkspace
 - [ ] Add more to README  
-  - [ ] Add instructions for Development  
+  - [ ] Add instructions for xcode-version file
+  - [ ] Add explanation for searching for Xcode.app files  
   - [ ] Add Environment Variables 
 - [ ] Support Homebrew installation  
 - [ ] Add autocomplete support
 - [ ] Add Usage and Sumarry to all commands
 - [ ] Add Unit Tests with [Bats](https://github.com/sstephenson/bats)
 - [ ] Add Travis CI
-- [ ] Add local command
-- [ ] Add shell command
-- [ ] Add global command
-- [ ] Add shims command 
-- [ ] Add version commands (name, path)
