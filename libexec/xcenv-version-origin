@@ -1,0 +1,13 @@
+#!/bin/sh
+# Summary: Explain how the current Xcode version is set
+
+set -e
+[ -n "$XCENV_DEBUG" ] && set -x
+
+if [ -n "$DEVELOPER_DIR" ]; then
+  echo "DEVELOPER_DIR environment variable"
+elif [ -n "$XCENV_VERSION" ]; then
+  echo "XCENV_VERSION environment variable"
+else
+  xcenv-version-file
+fi

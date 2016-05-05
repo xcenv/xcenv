@@ -1,0 +1,68 @@
+#!/bin/sh
+# Summary: Show the current Xcode version
+# Usage: xcenv version-name <version>
+
+set -e
+[ -n "$XCENV_DEBUG" ] && set -x
+
+if [ -n "$1" ]; then
+  XCENV_VERSION=$1
+else
+  XCENV_VERSION_FILE="$(xcenv-version-file)"
+  XCENV_VERSION="$(xcenv-version-file-read "$XCENV_VERSION_FILE" || true)"
+fi
+
+if [ -z "$XCENV_VERSION" ] || [ "$XCENV_VERSION" = "system" ]; then
+  echo $(/usr/bin/xcode-select -p)
+  exit
+fi
+
+get_value_from_app()
+{
+	APP=$1
+	KEY=$2
+	
+	INFO_PLIST="$APP/Contents/Info.plist"
+	PLIST_BUDDY="/usr/libexec/PlistBuddy"
+	
+	echo $($PLIST_BUDDY -c "Print :$KEY" "$INFO_PLIST")
+}
+
+find_xcode_app_from_version()
+{
+	XCODE_APP=""
+	XCODE_VERSION=$1
+	
+	XCODE_LOCATIONS=/Applications
+	
+	shopt -s nullglob
+	
+	for APP in "$XCODE_LOCATIONS"/*.app; do 
+		APP_NAME=$(get_value_from_app "$APP" "CFBundleName")
+		if [[ "$APP_NAME" == "Xcode" ]]; then 
+			VERSION=$(get_value_from_app "$APP" "CFBundleShortVersionString")
+			if [[ "$VERSION" =~ ^$XCODE_VERSION$ ]]; then
+				XCODE_APP="$APP"
+				break;
+			fi
+		fi
+	done
+	
+	echo $XCODE_APP
+}
+
+if [ -d "$XCENV_VERSION" ]; then
+  echo "$XCENV_VERSION"
+  exit
+fi
+
+XCODE_APP=$(find_xcode_app_from_version $XCENV_VERSION)
+if [ -d "$XCODE_APP" ]; then
+  echo "${XCODE_APP}/Contents/Developer"
+elif [ -n "$1" ]; then
+  echo "xcenv: version \`$XCENV_VERSION' is not installed" >&2
+  exit 1
+else
+  echo "xcenv: version \`$XCENV_VERSION' is not installed (set by $(xcenv-version-origin))" >&2
+  exit 1
+fi
