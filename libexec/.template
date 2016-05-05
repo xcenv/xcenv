@@ -1,3 +1,0 @@
-#!/bin/sh
-
-DEVELOPER_DIR=$(xcenv developer-dir) /usr/bin/$(basename $0) $*

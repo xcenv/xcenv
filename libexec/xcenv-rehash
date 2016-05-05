@@ -7,5 +7,5 @@ set -e
 FILES_NOT_SHIMMED=$(diff -qr "${XCENV_ROOT}/shims/" /usr/bin | grep '^Only in /usr/bin:' | cut -d: -f2-)
 for FILE_TO_SHIM in $(cd /usr/bin; LC_ALL=C grep -l "libxcselect.dylib" $FILES_NOT_SHIMMED 2>/dev/null)
 do
-	ln -s "${XCENV_ROOT}/libexec/.template" "${XCENV_ROOT}/shims/$(basename $FILE_TO_SHIM)"
+	ln -s "${XCENV_ROOT}/libexec/.shim" "${XCENV_ROOT}/shims/$(basename $FILE_TO_SHIM)"
 done
