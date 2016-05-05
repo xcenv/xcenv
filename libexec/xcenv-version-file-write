@@ -1,0 +1,19 @@
+#!/bin/sh
+# Usage: xcenv version-file-write <file> <version>
+
+set -e
+[ -n "$XCENV_DEBUG" ] && set -x
+
+XCENV_VERSION_FILE="$1"
+XCENV_VERSION="$2"
+
+if [ -z "$XCENV_VERSION" ] || [ -z "$XCENV_VERSION_FILE" ]; then
+  rbenv-help --usage version-file-write >&2
+  exit 1
+fi
+
+# Make sure the specified version is installed.
+xcenv-version-name "$XCENV_VERSION" >/dev/null
+
+# Write the version out to disk.
+echo "$XCENV_VERSION" > "$XCENV_VERSION_FILE"

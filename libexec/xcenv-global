@@ -1,0 +1,21 @@
+#!/bin/sh
+#
+# Summary: Set or show the global Ruby version
+#
+# Usage: xcenv global <version>
+#        xcenv global --unset
+
+set -e
+[ -n "$XCENV_DEBUG" ] && set -x
+
+XCENV_VERSION="$1"
+
+XCENV_VERSION_FILE="${RBENV_ROOT}/.xcode-version"
+
+if [ "$XCENV_VERSION" = "--unset" ]; then
+  rm -f $XCENV_VERSION_FILE
+elif [ -n "$XCENV_VERSION" ]; then
+  xcenv-version-file-write "$XCENV_VERSION_FILE" "$XCENV_VERSION"
+else
+  xcenv-version-file-read "$RBENV_VERSION_FILE" || echo system
+fi

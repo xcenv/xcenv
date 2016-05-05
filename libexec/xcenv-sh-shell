@@ -1,0 +1,49 @@
+#!/bin/sh
+#
+# Summary: Set or show the shell-specific Xcode version
+#
+# Usage: xcenv shell <version>
+#        xcenv shell --unset
+
+set -e
+[ -n "$XCENV_DEBUG" ] && set -x
+
+version="$1"
+
+shell="$(basename "${XCENV_SHELL:-$SHELL}")"
+
+if [ -z "$version" ]; then
+  if [ -z "$XCENV_VERSION" ]; then
+    echo "xcenv: no shell-specific version configured" >&2
+    exit 1
+  else
+    echo "echo \"\$XCENV_VERSION\""
+    exit
+  fi
+fi
+
+if [ "$version" = "--unset" ]; then
+  case "$shell" in
+  fish )
+    echo "set -e XCENV_VERSION"
+    ;;
+  * )
+    echo "unset XCENV_VERSION"
+    ;;
+  esac
+  exit
+fi
+
+# Make sure the specified version is installed.
+if xcenv-version-name "$version" >/dev/null; then
+  case "$shell" in
+  fish )
+    echo "setenv XCENV_VERSION \"${version}\""
+    ;;
+  * )
+    echo "export XCENV_VERSION=\"${version}\""
+    ;;
+  esac
+else
+  exit 1
+fi
