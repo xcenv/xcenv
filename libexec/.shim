@@ -5,4 +5,4 @@ if [ -z "$XCODE_DEVELOPER_DIR" ]; then
 	XCODE_DEVELOPER_DIR="$(xcenv version-name $XCENV_VERSION)"
 fi
 
-DEVELOPER_DIR="$XCODE_DEVELOPER_DIR" /usr/bin/$(basename $0) $*
+DEVELOPER_DIR="$XCODE_DEVELOPER_DIR" /usr/bin/$(basename $0) "$@"
