@@ -54,11 +54,9 @@ if [ -z "$print" ]; then
     echo
     case "$shell" in
     fish )
-	  echo "setenv PATH '${XCENV_ROOT}/shims' \$PATH"
       echo 'status --is-interactive; and . (xcenv init -|psub)'
       ;;
     * )
-	  echo 'export PATH="${XCENV_ROOT}/bin:$PATH"'
       echo 'eval "$(xcenv init -)"'
       ;;
     esac
