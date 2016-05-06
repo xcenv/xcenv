@@ -84,7 +84,7 @@ Copy the following into your shell profile file:
 
 To install xcenv
 
-	$ brew tap --full xcenv/formulae
+	$ brew tap --full xcenv/xcenv
 	$ brew update
 	$ brew install xcenv
 
