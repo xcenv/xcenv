@@ -1,0 +1,7 @@
+#!/bin/sh
+# Summary: Show the current Xcode version and its origin
+
+set -e
+[ -n "$XCENV_DEBUG" ] && set -x
+
+echo "$(xcenv-version-name) (set by $(xcenv-version-origin))"
