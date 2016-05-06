@@ -23,5 +23,7 @@ find_local_version_file() {
 if [ -n "$target_dir" ]; then
   find_local_version_file "$target_dir"
 else
-  find_local_version_file "$PWD" || echo "${XCENV_ROOT}/.xcode-version"
+  find_local_version_file "$PWD" || {
+	  [ -e "${XCENV_ROOT}/.xcode-version" ] && echo "${XCENV_ROOT}/.xcode-version"
+  } || echo "system"
 fi
