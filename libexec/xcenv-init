@@ -92,7 +92,7 @@ function xcenv
   set -e argv[1]
   switch "\$command"
   case ${commands[*]}
-    . (rbenv "sh-\$command" \$argv|psub)
+    . (xcenv "sh-\$command" \$argv|psub)
   case '*'
     command xcenv "\$command" \$argv
   end

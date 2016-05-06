@@ -8,7 +8,7 @@ XCENV_VERSION_FILE="$1"
 XCENV_VERSION="$2"
 
 if [ -z "$XCENV_VERSION" ] || [ -z "$XCENV_VERSION_FILE" ]; then
-  rbenv-help --usage version-file-write >&2
+  xcenv-help --usage version-file-write >&2
   exit 1
 fi
 

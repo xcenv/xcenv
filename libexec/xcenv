@@ -15,39 +15,42 @@ fi
 
 abort() {
   { if [ "$#" -eq 0 ]; then cat -
-    else echo "rbenv: $*"
+    else echo "xcenv: $*"
     fi
   } >&2
   exit 1
 }
 
+READLINK=$(type -p greadlink readlink | head -1)
+[ -n "$READLINK" ] || abort "cannot find readlink - are you missing GNU coreutils?"
+
+resolve_link() {
+  $READLINK "$1"
+}
+
+abs_dirname() {
+  local cwd="$PWD"
+  local path="$1"
+
+  while [ -n "$path" ]; do
+    cd "${path%/*}"
+    local name="${path##*/}"
+    path="$(resolve_link "$name" || true)"
+  done
+
+  pwd
+  cd "$cwd"
+}
+
 if [ -z "${XCENV_ROOT}" ]; then
   XCENV_ROOT="${HOME}/.xcenv"
 else
-  XCENV_ROOT="${RBENV_ROOT%/}"
+  XCENV_ROOT="${XCENV_ROOT%/}"
 fi
 export XCENV_ROOT
 
-if [ -z "${XCENV_DIR}" ]; then
-  XCENV_DIR="$PWD"
-else
-  cd "$XCENV_DIR" 2>/dev/null || abort "cannot change working directory to \`$XCENV_DIR'"
-  XCENV_DIR="$PWD"
-  cd "$OLDPWD"
-fi
-export XCENV_DIR
-
-
-shopt -s nullglob
-
-bin_path="$( cd "$( dirname "$0" )" && pwd )"
-for plugin_bin in "${XCENV_ROOT}/plugins/"*/bin; do
-  PATH="${plugin_bin}:${PATH}"
-done
+bin_path="$(abs_dirname "$0")"
 export PATH="${bin_path}:${PATH}"
-
-shopt -u nullglob
-
 
 command="$1"
 case "$command" in
