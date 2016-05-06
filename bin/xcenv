@@ -1,5 +1,1 @@
-#!/bin/sh
-
-DIR="$( cd "$( dirname "$0" )" && pwd )"
-
-"$DIR/../libexec/xcenv" $@
+../libexec/xcenv
