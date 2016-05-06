@@ -68,7 +68,7 @@ if [ -z "$print" ]; then
   exit 1
 fi
 
-mkdir -p "${XCENV_ROOT}/"{shims,versions}
+mkdir -p "${XCENV_ROOT}/"{shims}
 
 case "$shell" in
 fish )
