@@ -154,13 +154,9 @@ Install shims for all Xcode binaries in the /usr/bin folder. The shim files will
 
 ## TODO
 
-- [ ] Change /Applications to use Spotlight to find all .app files
-- [ ] Add shims command 
 - [ ] Add open command
 - [ ] Add support to search from location of the xcodeproj/xcworkspace
 - [ ] Add more to README  
-  - [ ] Add instructions for xcode-version file
-  - [ ] Add explanation for searching for Xcode.app files   
   - [ ] Add environment variables
 - [ ] Release to homebrew-core  
 - [ ] Add autocomplete support
