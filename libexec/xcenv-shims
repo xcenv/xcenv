@@ -1,0 +1,10 @@
+#!/bin/sh
+# Summary: Displays all shims
+
+set -e
+[ -n "$XCENV_DEBUG" ] && set -x
+
+for SHIM in ${XCENV_ROOT}/shims/*;
+do
+	echo $SHIM;
+done
