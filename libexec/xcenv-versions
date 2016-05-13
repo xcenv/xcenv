@@ -1,0 +1,9 @@
+#!/bin/sh
+# Summary: Displays all versions of Xcode installed
+
+set -e
+[ -n "$XCENV_DEBUG" ] && set -x
+
+for XCODE in $(xcenv-xcodes); do
+	echo $(xcenv-xcode-version $XCODE)
+done
