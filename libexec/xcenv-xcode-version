@@ -1,0 +1,27 @@
+#!/bin/sh
+# Summary: Displays version of Xcode
+# Usage: xcenv xcode-version <path to xcode.app>
+
+set -e
+[ -n "$XCENV_DEBUG" ] && set -x
+
+get_value_from_app()
+{
+	APP=$1
+	KEY=$2
+	
+	INFO_PLIST="$APP/Contents/Info.plist"
+	PLIST_BUDDY="/usr/libexec/PlistBuddy"
+	
+	echo $($PLIST_BUDDY -c "Print :$KEY" "$INFO_PLIST")
+}
+
+APP=$1
+
+APP_NAME=$(get_value_from_app "$APP" "CFBundleName")
+if [[ "$APP_NAME" == "Xcode" ]]; then 
+	VERSION=$(get_value_from_app "$APP" "CFBundleShortVersionString")
+	echo $VERSION
+else
+	echo "$APP is not an Xcode application"
+fi
