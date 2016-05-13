@@ -1,0 +1,7 @@
+#!/bin/sh
+# Summary: Displays all Xcode paths installed
+
+set -e
+[ -n "$XCENV_DEBUG" ] && set -x
+
+echo $(mdfind "kMDItemCFBundleIdentifier == 'com.apple.dt.Xcode'")
