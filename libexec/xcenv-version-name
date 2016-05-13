@@ -17,34 +17,18 @@ if [ -z "$XCENV_VERSION" ] || [ "$XCENV_VERSION" = "system" ]; then
   exit
 fi
 
-get_value_from_app()
-{
-	APP=$1
-	KEY=$2
-	
-	INFO_PLIST="$APP/Contents/Info.plist"
-	PLIST_BUDDY="/usr/libexec/PlistBuddy"
-	
-	echo $($PLIST_BUDDY -c "Print :$KEY" "$INFO_PLIST")
-}
-
 find_xcode_app_from_version()
 {
 	XCODE_APP=""
 	XCODE_VERSION=$1
 	
-	XCODE_LOCATIONS=/Applications
+	XCODE_LOCATIONS=$(xcenv-xcodes)
 	
-	shopt -s nullglob
-	
-	for APP in "$XCODE_LOCATIONS"/*.app; do 
-		APP_NAME=$(get_value_from_app "$APP" "CFBundleName")
-		if [[ "$APP_NAME" == "Xcode" ]]; then 
-			VERSION=$(get_value_from_app "$APP" "CFBundleShortVersionString")
-			if [[ "$VERSION" =~ ^$XCODE_VERSION$ ]]; then
-				XCODE_APP="$APP"
-				break;
-			fi
+	for APP in $XCODE_LOCATIONS; do
+		VERSION=$(xcenv-xcode-version $APP)
+		if [[ "$VERSION" =~ ^$XCODE_VERSION$ ]]; then
+			XCODE_APP="$APP"
+			break;
 		fi
 	done
 	
