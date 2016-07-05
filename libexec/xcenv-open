@@ -1,0 +1,11 @@
+#!/bin/sh
+# Summary: Open the desired Xcode UI
+
+set -e
+[ -n "$XCENV_DEBUG" ] && set -x
+
+XCODE_APP_PATH=$(xcenv-version-name)
+
+if [ $? -eq 0 ]; then
+  open -a $XCODE_APP_PATH
+fi
