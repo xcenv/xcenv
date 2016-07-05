@@ -6,6 +6,7 @@ if [ -z "$XCENV_TEST_DIR" ]; then
   export XCENV_TEST_DIR="$(mktemp -d "${XCENV_TEST_DIR}.XXX" 2>/dev/null || echo "$XCENV_TEST_DIR")"
 
   export XCENV_ROOT="${XCENV_TEST_DIR}/root"
+  export XCENV_TEST_TEMP="${XCENV_TEST_DIR}/temp"
   export HOME="${XCENV_TEST_DIR}/home"
 
   PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin
@@ -25,6 +26,7 @@ make_root_dir() {
 
 teardown() {
   rm -rf "$XCENV_TEST_DIR"
+  rm -rf "$XCENV_TEST_TEMP"
 }
 
 flunk() {
