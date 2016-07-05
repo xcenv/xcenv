@@ -59,10 +59,6 @@ You can set the value with a regular expression. This example will match any 7.3
 
 	7.3+
 
-Lastly you can set the value to the exact path you wish to use. This is not desired, but is supported for teams that desire it.
-
-	/Applications/Xcode.app/Contents/Developer
-
 ### Finding Xcode.app
 
 Xcenv searches in /Applications for any .app bundle that has the CFBundleName Xcode and then compares the version number against the value found in the above section manner.

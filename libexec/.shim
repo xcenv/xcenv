@@ -2,7 +2,7 @@
 
 XCODE_DEVELOPER_DIR="$DEVELOPER_DIR"
 if [ -z "$XCODE_DEVELOPER_DIR" ]; then
-	XCODE_DEVELOPER_DIR="$(xcenv version-name $XCENV_VERSION)"
+	XCODE_DEVELOPER_DIR="$(xcenv version-name $XCENV_VERSION)/Contents/Developer"
 fi
 
 DEVELOPER_DIR="$XCODE_DEVELOPER_DIR" /usr/bin/$(basename $0) "$@"
