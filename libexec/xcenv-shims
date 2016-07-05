@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 # Summary: Displays all shims
 
 set -e

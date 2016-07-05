@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 # Usage: xcenv version-file [<dir>]
 # Summary: Detect the file that sets the current xcenv version
 

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 # Summary: Displays version of Xcode
 # Usage: xcenv xcode-version <path to xcode.app>
 

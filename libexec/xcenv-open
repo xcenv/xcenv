@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 # Summary: Open the desired Xcode UI
 #
 # Usage: xcenv open [project or workspace]
