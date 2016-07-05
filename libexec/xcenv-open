@@ -1,11 +1,23 @@
 #!/bin/sh
 # Summary: Open the desired Xcode UI
+#
+# Usage: xcenv open [project or workspace]
 
 set -e
 [ -n "$XCENV_DEBUG" ] && set -x
 
 XCODE_APP_PATH=$(xcenv-version-name)
 
+PROJECT=$1
+
+if [ -z "$PROJECT" ]; then
+  PROJECT=$(find *.xcworkspace)
+fi
+
+if [ -z "$PROJECT" ]; then
+  PROJECT=$(find *.xcodeproj)
+fi
+
 if [ $? -eq 0 ]; then
-  open -a $XCODE_APP_PATH
+  open -a $XCODE_APP_PATH $PROJECT
 fi
