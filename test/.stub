@@ -1,0 +1,20 @@
+#!/bin/sh
+
+flunk() {
+  { if [ "$#" -eq 0 ]; then cat -
+    else echo "$@"
+    fi
+  } | sed "s:${XCENV_TEST_DIR}:TEST_DIR:g" >&2
+  return 1
+}
+
+assert_equal() {
+  if [[ ! "$2" == $1 ]]; then
+    { echo "expected: $1"
+      echo "actual:   $2"
+    } | flunk
+  fi
+}
+
+# CODE INSERTED PASS THIS LINE
+
