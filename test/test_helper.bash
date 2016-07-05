@@ -26,7 +26,6 @@ make_root_dir() {
 
 teardown() {
   rm -rf "$XCENV_TEST_DIR"
-  rm -rf "$XCENV_TEST_TEMP"
 }
 
 flunk() {

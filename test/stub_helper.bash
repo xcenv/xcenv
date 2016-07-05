@@ -5,11 +5,6 @@ XCENV_STUB_DIR="${XCENV_TEST_DIR}/stub"
 PATH="${XCENV_STUB_DIR}:$PATH"
 export PATH
 
-teardown() {
-  rm -rf "${XCENV_TEST_DIR}"
-  rm -rf "${XCENV_STUB_DIR}"
-}
-
 stub_executable() {
   EXECUTABLE=$1
   mkdir -p "$XCENV_STUB_DIR"
