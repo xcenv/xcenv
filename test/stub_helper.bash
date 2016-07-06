@@ -5,7 +5,7 @@ XCENV_STUB_DIR="${XCENV_TEST_DIR}/stub"
 PATH="${XCENV_STUB_DIR}:$PATH"
 export PATH
 
-stub_executable() {
+stub_path() {
   EXECUTABLE=$1
   mkdir -p "$XCENV_STUB_DIR"
   STUB_PATH="${XCENV_STUB_DIR}/${EXECUTABLE}"
@@ -20,8 +20,7 @@ expect_executable_parameter() {
   ARGUMENT_NUMBER=$2
   EXPECTED_VALUE=$3
   
-  STUB_PATH=$(stub_executable $EXECUTABLE)
-  echo "assert_equal \"$EXPECTED_VALUE\" \"\$$ARGUMENT_NUMBER\"" >> "$STUB_PATH"
+  stub_executable $EXECUTABLE "assert_equal \"$EXPECTED_VALUE\" \"\$$ARGUMENT_NUMBER\""
 }
 
 stub_executable_failure() {
@@ -34,16 +33,29 @@ stub_executable_failure() {
     FAIL_CODE=1
   fi
   
-  STUB_PATH=$(stub_executable $EXECUTABLE)
-  echo "echo $MESSAGE 1>&2" >> "$STUB_PATH"
-  echo "exit $FAIL_CODE" >> "$STUB_PATH"
+  if [ -n "$MESSAGE" ]; then
+    stub_executable $EXECUTABLE "echo $MESSAGE >&2"
+  fi
+  
+  stub_executable $EXECUTABLE "exit $FAIL_CODE"
 }
 
 stub_executable_success() {
   EXECUTABLE=$1
   MESSAGE=$2
   
-  STUB_PATH=$(stub_executable $EXECUTABLE)
-  echo "echo $MESSAGE" >> "$STUB_PATH"
-  echo "exit 0" >> "$STUB_PATH"
+  if [ -n "$MESSAGE" ]; then
+    stub_executable $EXECUTABLE "echo $MESSAGE"
+  fi
+  
+  stub_executable $EXECUTABLE "exit"
+}
+
+stub_executable() {
+  EXECUTABLE=$1
+  CODE=$2
+  
+  STUB_PATH=$(stub_path $EXECUTABLE)
+  echo -n "$CODE" >> "$STUB_PATH"
+  echo >> "$STUB_PATH"
 }

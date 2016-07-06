@@ -13,7 +13,7 @@ else
 fi
 
 if [ -z "$XCENV_VERSION" ] || [ "$XCENV_VERSION" = "system" ]; then
-  echo $(/usr/bin/xcode-select -p)
+  echo $(xcode-select -p)
   exit
 fi
 
@@ -36,7 +36,7 @@ find_xcode_app_from_version()
 }
 
 XCODE_APP=$(find_xcode_app_from_version $XCENV_VERSION)
-if [ -d "$XCODE_APP" ]; then
+if [ -n "$XCODE_APP" ]; then
   echo "${XCODE_APP}"
 elif [ -n "$1" ]; then
   echo "xcenv: version \`$XCENV_VERSION' is not installed" >&2
