@@ -1,4 +1,4 @@
-<img src="https://img.shields.io/badge/Sponsor-Detroit%20Labs-000000.svg" />
+[![Build Status](https://travis-ci.org/xcenv/xcenv.svg?branch=master)](https://travis-ci.org/xcenv/xcenv)
 
 # Groom your Xcode environment with xcenv.
 
