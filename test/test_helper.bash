@@ -24,6 +24,16 @@ make_root_dir() {
   mkdir -p "$XCENV_ROOT"
 }
 
+make_global_file() {
+  make_root_dir
+  touch "$XCENV_ROOT/.xcode-version"
+}
+
+mkdircd() {
+  /bin/mkdir -p $1
+  cd $1
+}
+
 teardown() {
   rm -rf "$XCENV_TEST_DIR"
 }

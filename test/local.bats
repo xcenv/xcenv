@@ -14,13 +14,16 @@ run_command() {
 
 @test "local default" {
   run xcenv-local
+  
   assert_failure "xcenv: no local version configured for this directory"
 }
 
 @test "unsetting local version" {
   touch "$XCENV_TEST_TEMP/.xcode-version"
   assert [ -f "$XCENV_TEST_TEMP/.xcode-version" ]
+  
   run_command --unset
+  
   assert [ ! -f "$XCENV_TEST_TEMP/.xcode-version" ]
 }
 

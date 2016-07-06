@@ -13,13 +13,17 @@ run_command() {
 
 @test "global default" {
   run_command
+  
   assert_output "system"
 }
 
 @test "unsetting global version" {
-  touch "$XCENV_ROOT/.xcode-version"
+  make_global_file
+  
   assert [ -f "$XCENV_ROOT/.xcode-version" ]
+  
   run_command --unset
+  
   assert [ ! -f "$XCENV_ROOT/.xcode-version" ]
 }
 
@@ -37,5 +41,6 @@ run_command() {
   stub_executable_success "xcenv-version-file-read" "1.2.3"
   
   run_command
+  
   assert_output "1.2.3"
 }
