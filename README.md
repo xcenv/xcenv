@@ -150,9 +150,7 @@ Install shims for all Xcode binaries in the /usr/bin folder. The shim files will
 
 ## TODO
 
-- [ ] Add support to search from location of the xcodeproj/xcworkspace
-- [ ] Release to homebrew-core  
 - [ ] Add autocomplete support
 - [ ] Add Usage and Sumarry to all commands
 - [ ] Add Unit Tests with [Bats](https://github.com/sstephenson/bats)
-- [ ] Add Travis CI
+- [ ] Release to homebrew-core

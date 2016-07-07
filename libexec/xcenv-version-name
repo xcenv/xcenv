@@ -19,18 +19,28 @@ fi
 
 find_xcode_app_from_version()
 {
-	XCODE_APP=""
 	XCODE_VERSION=$1
 	
 	XCODE_LOCATIONS=$(xcenv-xcodes)
-	
+	XCODE_VERSIONS=()
+  
 	for APP in $XCODE_LOCATIONS; do
 		VERSION=$(xcenv-xcode-version $APP)
-		if [[ "$VERSION" =~ ^$XCODE_VERSION$ ]]; then
-			XCODE_APP="$APP"
-			break;
-		fi
+		XCODE_VERSIONS+=("${VERSION}-${APP}")
 	done
+  
+  IFS=$'\n'
+  XCODE_VERSIONS=($(sort -r <<<"${XCODE_VERSIONS[*]}"))
+  unset IFS
+  
+  for VERSION in ${XCODE_VERSIONS[*]}; do
+    APP=${VERSION/*-/}
+    VERSION=${VERSION/-*/}
+	  if [[ "$VERSION" =~ ^$XCODE_VERSION$ ]]; then
+	  	XCODE_APP="$APP"
+	  	break;
+	  fi
+  done
 	
 	echo $XCODE_APP
 }
