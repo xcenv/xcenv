@@ -3,21 +3,16 @@
 #
 # Usage: xcenv open [project or workspace]
 
-set -e
 [ -n "$XCENV_DEBUG" ] && set -x
-
-XCODE_APP_PATH=$(xcenv-version-name)
 
 PROJECT=$1
 
 if [ -z "$PROJECT" ]; then
-  PROJECT=$(find *.xcworkspace)
+  PROJECT=$(find *.xcworkspace 2>/dev/null)
 fi
 
-if [ -z "$PROJECT" ]; then
-  PROJECT=$(find *.xcodeproj)
+if [ "$PROJECT" = "" ]; then
+  PROJECT=$(find *.xcodeproj 2>/dev/null)
 fi
 
-if [ $? -eq 0 ]; then
-  open -a $XCODE_APP_PATH $PROJECT
-fi
+open -a "$(xcenv-version-name)" "$PROJECT"

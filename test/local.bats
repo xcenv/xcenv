@@ -3,8 +3,7 @@
 load stub_helper
 
 setup() {
-  mkdir -p "$XCENV_TEST_TEMP"
-  cd "$XCENV_TEST_TEMP"
+  mkdircd "$XCENV_TEST_TEMP"
 }
 
 run_command() {
