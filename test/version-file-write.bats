@@ -25,10 +25,10 @@ run_command() {
   USAGE="Usage: xcenv version-file-write <file> <version>"
 
   run xcenv-version-file-write
-  assert_failure $USAGE
+  assert_failure "$USAGE"
   
   run xcenv-version-file-write .xcode-version
-  assert_failure $USAGE
+  assert_failure "$USAGE"
 }
 
 @test "version-file-write fails if Xcode version does not exist" {
