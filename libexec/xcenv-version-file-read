@@ -12,6 +12,7 @@ if [ -e "$VERSION_FILE" ]; then
   IFS="${IFS}"$'\r'
   words=( $(cut -b 1-1024 "$VERSION_FILE") )
   version="${words[0]}"
+  unset IFS
 
   if [ -n "$version" ]; then
     echo "$version"
