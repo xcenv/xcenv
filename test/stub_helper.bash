@@ -59,3 +59,20 @@ stub_executable() {
   echo -n "$CODE" >> "$STUB_PATH"
   echo >> "$STUB_PATH"
 }
+
+stub_list_of_xcodes() {
+  stub_executable_success "xcenv-xcodes" "Xcode.app Xcode6.3.app Xcode6.4.app Xcode7.2.app"
+  
+  CODE=`cat <<fi
+    if [ "\\$1" = "Xcode.app" ]; then
+      echo "8.0"
+    elif [ "\\$1" = "Xcode6.4.app" ]; then
+      echo "6.4"
+    elif [ "\\$1" = "Xcode6.3.app" ]; then
+      echo "6.3"
+    elif [ "\\$1" = "Xcode7.2.app" ]; then
+      echo "7.2"
+    fi
+  `
+  stub_executable "xcenv-xcode-version" "$CODE"
+}
