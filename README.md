@@ -152,5 +152,3 @@ Install shims for all Xcode binaries in the /usr/bin folder. The shim files will
 
 - [ ] Add autocomplete support
 - [ ] Add Usage and Sumarry to all commands
-- [ ] Add Unit Tests with [Bats](https://github.com/sstephenson/bats)
-- [ ] Release to homebrew-core
