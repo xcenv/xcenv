@@ -45,9 +45,19 @@ find_xcode_app_from_version()
 	echo $XCODE_APP
 }
 
+return_xcenv_version()
+{
+  echo "${1/Contents\/Developer/}"
+  exit
+}
+
+if [ -d "$XCENV_VERSION" ]; then
+  return_xcenv_version "$XCENV_VERSION"
+fi
+
 XCODE_APP=$(find_xcode_app_from_version $XCENV_VERSION)
 if [ -n "$XCODE_APP" ]; then
-  echo "${XCODE_APP}"
+  return_xcenv_version "${XCODE_APP}"
 elif [ -n "$1" ]; then
   echo "xcenv: version \`$XCENV_VERSION' is not installed" >&2
   exit 1

@@ -40,6 +40,18 @@ run_command() {
   assert_output "Xcode6.4.app"
 }
 
+@test "version-name returns path for given path if exists" {
+  mkdir -p "${XCENV_TEST_DIR}/testXcode.app"
+  run_command "${XCENV_TEST_DIR}/testXcode.app"
+  assert_output "${XCENV_TEST_DIR}/testXcode.app"
+}
+
+@test "version-name returns path for given path if exists stripping contents/developer" {
+  mkdir -p "${XCENV_TEST_DIR}/testXcode.app/Contents/Developer"
+  run_command "${XCENV_TEST_DIR}/testXcode.app/Contents/Developer"
+  assert_output "${XCENV_TEST_DIR}/testXcode.app/"
+}
+
 @test "version-name returns error if not found" {
   run xcenv-version-name 5.0
   assert_failure "xcenv: version \`5.0' is not installed"
@@ -51,4 +63,9 @@ run_command() {
   
   run xcenv-version-name
   assert_failure "xcenv: version \`5.0' is not installed (set by .xcode-version)"
+}
+
+@test "version-name returns error for given path if not exists" {
+  run xcenv-version-name "${XCENV_TEST_DIR}/testXcode.app"
+  assert_failure
 }
