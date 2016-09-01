@@ -8,6 +8,7 @@ if [ -z "$XCENV_TEST_DIR" ]; then
   export XCENV_ROOT="${XCENV_TEST_DIR}/root"
   export XCENV_TEST_TEMP="${XCENV_TEST_DIR}/temp"
   export HOME="${XCENV_TEST_DIR}/home"
+  export USR_BIN="${XCENV_TEST_DIR}/usr_bin"
 
   PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin
   PATH="${XCENV_TEST_DIR}/bin:$PATH"

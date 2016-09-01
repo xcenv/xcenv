@@ -30,12 +30,24 @@ abs_dirname() {
 bin_path="$(abs_dirname "$0")"
 SHIM_PATH="${XCENV_ROOT}/shims"
 
-FILES_NOT_SHIMMED=`diff -qr "${XCENV_ROOT}/shims" /usr/bin 2> /dev/null | grep '^Only in /usr/bin:' | cut -d: -f2-`
-for FILE_TO_SHIM in $(cd /usr/bin; LC_ALL=C grep -l "libxcselect.dylib" $FILES_NOT_SHIMMED 2>/dev/null)
-do
-	[[ ! $DO_NOT_SHIM_LIST =~ $FILE_TO_SHIM ]] && \
-    ln -s "${bin_path}/.shim" "${SHIM_PATH}/$(basename $FILE_TO_SHIM)"
-done
+if [ -z "$USR_BIN" ]; then
+  USR_BIN="/usr/bin"
+fi
+
+if [ ! -d "$USR_BIN" ]; then
+  echo "$USR_BIN does not exist"
+  exit 1
+fi
+
+FILES_NOT_SHIMMED=`diff -qr "${XCENV_ROOT}/shims" "$USR_BIN" 2> /dev/null | grep "^Only in $USR_BIN:" | cut -d: -f2-`
+
+if [ -n "$FILES_NOT_SHIMMED" ]; then
+  for FILE_TO_SHIM in $(cd "$USR_BIN"; LC_ALL=C grep -l "libxcselect.dylib" $FILES_NOT_SHIMMED 2>/dev/null)
+  do
+  	[[ ! $DO_NOT_SHIM_LIST =~ $FILE_TO_SHIM ]] && \
+      ln -s "${bin_path}/.shim" "${SHIM_PATH}/$(basename $FILE_TO_SHIM)"
+  done
+fi
 
 for FILE_NOT_TO_SHIM in $DO_NOT_SHIM_LIST
 do

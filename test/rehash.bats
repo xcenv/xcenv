@@ -5,6 +5,11 @@ load stub_helper
 setup() {
   rm -rf "$XCENV_ROOT/shims"
   mkdir -p "$XCENV_ROOT/shims"
+  
+  mkdir -p "$USR_BIN"
+  touch "$USR_BIN/notshimmed"
+  echo "libxcselect.dylib" > "$USR_BIN/xcrun"
+  echo "libxcselect.dylib" > "$USR_BIN/xcode-select"
 }
 
 run_command() {
