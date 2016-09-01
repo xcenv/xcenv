@@ -29,6 +29,7 @@ abs_dirname() {
 
 bin_path="$(abs_dirname "$0")"
 SHIM_PATH="${XCENV_ROOT}/shims"
+
 FILES_NOT_SHIMMED=`diff -qr "${XCENV_ROOT}/shims" /usr/bin 2> /dev/null | grep '^Only in /usr/bin:' | cut -d: -f2-`
 for FILE_TO_SHIM in $(cd /usr/bin; LC_ALL=C grep -l "libxcselect.dylib" $FILES_NOT_SHIMMED 2>/dev/null)
 do
@@ -38,5 +39,7 @@ done
 
 for FILE_NOT_TO_SHIM in $DO_NOT_SHIM_LIST
 do
-  rm "${SHIM_PATH}/${FILE_NOT_TO_SHIM}" 2> /dev/null
+  if [ -f "${SHIM_PATH}/${FILE_NOT_TO_SHIM}" ]; then
+    rm "${SHIM_PATH}/${FILE_NOT_TO_SHIM}"
+  fi
 done
