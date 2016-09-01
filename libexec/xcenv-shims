@@ -4,7 +4,11 @@
 set -e
 [ -n "$XCENV_DEBUG" ] && set -x
 
-for SHIM in ${XCENV_ROOT}/shims/*;
-do
-	echo $SHIM;
-done
+if [ "$(ls -A ${XCENV_ROOT}/shims)" ]; then
+  for SHIM in ${XCENV_ROOT}/shims/*;
+  do
+	  echo $SHIM;
+  done
+else
+  echo "No shims installed"
+fi
