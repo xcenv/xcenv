@@ -147,8 +147,3 @@ Displays the current active Xcode version.
 Install shims for all Xcode binaries in the /usr/bin folder. The shim files will temporarily set `DEVELOPER_DIR` before calling the real `/usr/bin/${command}`
 
 	$ xcenv rehash
-
-## TODO
-
-- [ ] Add autocomplete support
-- [ ] Add Usage and Sumarry to all commands
