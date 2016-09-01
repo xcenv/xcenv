@@ -52,6 +52,14 @@ run_command() {
   assert_output "${XCENV_TEST_DIR}/testXcode.app/"
 }
 
+@test "version-name returns path for system stripping contents/developer" {
+  expect_executable_parameter "xcode-select" 1 "-p"
+  stub_executable_success "xcode-select" "/some/path/to/Xcode.app/Contents/Developer"
+  
+  run_command system
+  assert_output "/some/path/to/Xcode.app/"
+}
+
 @test "version-name returns error if not found" {
   run xcenv-version-name 5.0
   assert_failure "xcenv: version \`5.0' is not installed"

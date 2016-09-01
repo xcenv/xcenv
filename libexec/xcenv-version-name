@@ -2,6 +2,12 @@
 # Summary: Show the current Xcode version
 # Usage: xcenv version-name <version>
 
+return_xcenv_version()
+{
+  echo "${1/Contents\/Developer/}"
+  exit
+}
+
 set -e
 [ -n "$XCENV_DEBUG" ] && set -x
 
@@ -13,8 +19,7 @@ else
 fi
 
 if [ -z "$XCENV_VERSION" ] || [ "$XCENV_VERSION" = "system" ]; then
-  echo $(xcode-select -p)
-  exit
+  return_xcenv_version $(xcode-select -p)
 fi
 
 find_xcode_app_from_version()
@@ -43,12 +48,6 @@ find_xcode_app_from_version()
   done
 	
 	echo $XCODE_APP
-}
-
-return_xcenv_version()
-{
-  echo "${1/Contents\/Developer/}"
-  exit
 }
 
 if [ -d "$XCENV_VERSION" ]; then
