@@ -39,9 +39,9 @@ find_xcode_app_from_version()
   unset IFS
   
   for VERSION in ${XCODE_VERSIONS[*]}; do
-    APP=${VERSION/*-/}
-    VERSION=${VERSION/-*/}
-	  if [[ "$VERSION" =~ ^$XCODE_VERSION$ ]]; then
+    APP_VERSION=${VERSION/-*/}
+    APP=${VERSION/$APP_VERSION-/}
+	  if [[ "$APP_VERSION" =~ ^$XCODE_VERSION$ ]]; then
 	  	XCODE_APP="$APP"
 	  	break;
 	  fi

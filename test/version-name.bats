@@ -77,3 +77,8 @@ run_command() {
   run xcenv-version-name "${XCENV_TEST_DIR}/testXcode.app"
   assert_failure
 }
+
+@test "version-name returns Xcode path with hyphen in the name" {
+  run_command 8.0b
+  assert_output "Xcode-beta.app"
+}
