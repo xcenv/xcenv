@@ -28,30 +28,169 @@
         </ul>
       </header>
       <section>
-        <h3>
-<a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+        <p><a href="https://travis-ci.org/xcenv/xcenv"><img src="https://travis-ci.org/xcenv/xcenv.svg?branch=master" alt="Build Status"></a></p>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here <a href="https://guides.github.com/features/mastering-markdown/">using GitHub Flavored Markdown</a>, select a template crafted by a designer, and publish. After your page is generated, you can check out the new <code>gh-pages</code> branch locally. If you’re using GitHub Desktop, simply sync your repository and you’ll see the new branch.</p>
+<h1>
+<a id="groom-your-xcode-environment-with-xcenv" class="anchor" href="#groom-your-xcode-environment-with-xcenv" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Groom your Xcode environment with xcenv.</h1>
 
-<h3>
-<a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Designer Templates</h3>
+<p>Use xcenv to document and manage the Xcode version for your project and system. When working on multiple projects, it is often needed to support older versions of Xcode. Managing multiple Xcodes can be a problem when executing builds on the command line.</p>
 
-<p>We’ve crafted some handsome templates for you to use. Go ahead and click 'Continue to layouts' to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved.</p>
+<p>The current solutions require setting the values with <code>xcode-select</code>, using the path to the desired Xcode.app file. Additional solutions include setting <code>DEVELOPER_DIR</code> value to the desired Xcode.app path.</p>
 
-<h3>
-<a id="creating-pages-manually" class="anchor" href="#creating-pages-manually" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Creating pages manually</h3>
+<p>While these solutions work, it requires a team to use the same Xcode.app naming scheme, which can conflict from team to team. One team may desire Xcode.app to be version 6.4 and another may want it to be latest app store build. Alternatively one team may want Xcode7.2.app and another may want Xcode_7_2.app. For this reason xcenv uses the version number to synchronize this required toolset for a project. </p>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<p>This active documentation will help your team make sure they have the right tool to build the project. Additionaly this file can be tracked in the source code changes, and therefore will be tracked. So as your project changes Xcode versions, it can be tracked. Going back to a previous commit will warn you if it may not compile with the current tools installed.</p>
 
-<h3>
-<a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Authors and Contributors</h3>
-
-<p>You can @mention a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor’s GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h2>
 
 <h3>
-<a id="support-or-contact" class="anchor" href="#support-or-contact" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Support or Contact</h3>
+<a id="basic-git-installation" class="anchor" href="#basic-git-installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Basic Git Installation</h3>
 
-<p>Having trouble with Pages? Check out our <a href="https://help.github.com/pages">documentation</a> or <a href="https://github.com/contact">contact support</a> and we’ll help you sort it out.</p>
+<p>To install xcenv:</p>
+
+<pre><code>$ git clone git@github.com:xcenv/xcenv.git ~/.xcenv
+</code></pre>
+
+<p>Copy the following into your shell profile file:</p>
+
+<pre><code>export PATH="$HOME/.xcenv/bin:$PATH"
+eval "$(xcenv init -)"
+</code></pre>
+
+<h3>
+<a id="homebrew" class="anchor" href="#homebrew" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Homebrew</h3>
+
+<p>To install xcenv</p>
+
+<pre><code>$ brew tap --full xcenv/xcenv
+$ brew update
+$ brew install xcenv
+</code></pre>
+
+<p>Follow the instructions after installing, by copying the following to shell profile:</p>
+
+<pre><code>eval "$(xcenv init -)"
+</code></pre>
+
+<h2>
+<a id="command-reference" class="anchor" href="#command-reference" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Command Reference</h2>
+
+<h3>
+<a id="xcenv-local" class="anchor" href="#xcenv-local" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>xcenv local</h3>
+
+<p>Sets a local project-specific Xcode version by writing the version to a .xcode-version file in the current directory. This version can be overriden by the <code>DEVELOPER_DIR</code> environment variable and the <code>XCENV_VERSION</code> variable set by the <code>xcenv shell</code> command.</p>
+
+<pre><code>$ xcenv local 7.3.1
+</code></pre>
+
+<p>When ran without a version number, <code>xcenv local</code> will output the current version if available.</p>
+
+<pre><code>$ xcenv local
+7.3.1
+</code></pre>
+
+<p>To unset the local version use the <code>--unset</code> parameter.</p>
+
+<pre><code>$ xcenv local --unset
+</code></pre>
+
+<h3>
+<a id="xcenv-global" class="anchor" href="#xcenv-global" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>xcenv global</h3>
+
+<p>Sets a global Xcode version by writing the version to a .xcode-version file in the <code>XCENV_ROOT</code> folder. This version can be overriden by the <code>DEVELOPER_DIR</code> environment variable, the <code>XCENV_VERSION</code> variable set by the <code>xcenv shell</code> command, and the <code>xcenv local</code> command.</p>
+
+<pre><code>$ xcenv global 7.3.1
+</code></pre>
+
+<p>When ran without a version number, <code>xcenv global</code> will output the current version if available.</p>
+
+<pre><code>$ xcenv global
+7.3.1
+</code></pre>
+
+<p>To unset the local version use the <code>--unset</code> parameter.</p>
+
+<pre><code>$ xcenv global --unset
+</code></pre>
+
+<h3>
+<a id="xcenv-shell" class="anchor" href="#xcenv-shell" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>xcenv shell</h3>
+
+<p>Sets a shell-specific Xcode version, by creating the environment variable <code>XCENV_VERSION</code>. This version can be overriden by the <code>DEVELOPER_DIR</code>.</p>
+
+<pre><code>$ xcenv shell 7.3.1
+</code></pre>
+
+<p>When ran without a version number, <code>xcenv shell</code> will output the current version if available.</p>
+
+<pre><code>$ xcenv shell
+7.3.1
+</code></pre>
+
+<p>To unset the local version use the <code>--unset</code> parameter.</p>
+
+<pre><code>$ xcenv shell --unset
+</code></pre>
+
+<h3>
+<a id="xcenv-version" class="anchor" href="#xcenv-version" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>xcenv version</h3>
+
+<p>Displays the current active Xcode version.</p>
+
+<pre><code>$ xcenv version
+7.3.1 set by /Users/xcenv/ProjectX/.xcode-version
+</code></pre>
+
+<h3>
+<a id="xcenv-rehash" class="anchor" href="#xcenv-rehash" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>xcenv rehash</h3>
+
+<p>Install shims for all Xcode binaries in the /usr/bin folder. The shim files will temporarily set <code>DEVELOPER_DIR</code> before calling the real <code>/usr/bin/${command}</code></p>
+
+<pre><code>$ xcenv rehash
+</code></pre>
+
+<h2>
+<a id="how-it-works" class="anchor" href="#how-it-works" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How It Works</h2>
+
+<h3>
+<a id="shims" class="anchor" href="#shims" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Shims</h3>
+
+<p>Shims are a script that is executed instead of the desired application to inject the desired Xcode version before the command is executed.</p>
+
+<p>The shims supported will work with numerous third party tools. Some tools include <a href="https://fastlane.tools/">Fastlane</a>, <a href="https://cocoapods.org/">Cocoapods</a>, <a href="https://github.com/nomad/shenzhen">Shenzhen</a>, and current build scripts that use <code>xcodebuild</code>, <code>xcrun</code>, or other Xcode binaries (which also includes <code>git</code>).</p>
+
+<h3>
+<a id="choosing-the-xcode-version" class="anchor" href="#choosing-the-xcode-version" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Choosing the Xcode Version</h3>
+
+<p>When you execute a shim, xcenv determines which Xcode version to use by reading it from the following sources, in this order:</p>
+
+<ol>
+<li><p>If <code>DEVELOPER_DIR</code> is defined, as environment or shell variable, that value will be respected and not overriden.</p></li>
+<li><p>If <code>XCENV_VERSION</code> is defined, as environemnt or shell variable, that value will be used to find the matching Xcode app bundle. This can be set using the <code>xcenv shell</code> command</p></li>
+<li><p>The first <code>.xcode-version</code> file found by searching the current working directory and each of its parent directories until reaching the root of your filesystem. You can modify the <code>.xcode-version</code> file in the current working directory with the <code>xcenv local</code> command.</p></li>
+<li><p>The global ~/.xcenv/.xcode-version file. You can modify this file using the <code>xcenv global</code> command. If the global version file is not present, xcenv assumes you want to use the "system" Xcode—i.e. whatever is returned by xcode-select -p.</p></li>
+</ol>
+
+<h3>
+<a id="xcode-version" class="anchor" href="#xcode-version" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Xcode Version</h3>
+
+<p>Xcenv supports multiple value types for the .xcode-version file.</p>
+
+<p>You can set the value to the specific version desired, which will only match the specific version.</p>
+
+<pre><code>7.3.1
+</code></pre>
+
+<p>You can set the value with a regular expression. This example will match any 7.3 or 7.3.x app bundles.</p>
+
+<pre><code>7.3+
+</code></pre>
+
+<h3>
+<a id="finding-xcodeapp" class="anchor" href="#finding-xcodeapp" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Finding Xcode.app</h3>
+
+<p>Xcenv searches in /Applications for any .app bundle that has the CFBundleName Xcode and then compares the version number against the value found in the above section manner.</p>
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/xcenv">xcenv</a></p>
