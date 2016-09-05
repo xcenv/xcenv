@@ -140,48 +140,6 @@ eval "$(xcenv init -)"
 
 <pre><code>$ xcenv rehash
 </code></pre>
-
-<h2>
-<a id="how-it-works" class="anchor" href="#how-it-works" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How It Works</h2>
-
-<h3>
-<a id="shims" class="anchor" href="#shims" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Shims</h3>
-
-<p>Shims are a script that is executed instead of the desired application to inject the desired Xcode version before the command is executed.</p>
-
-<p>The shims supported will work with numerous third party tools. Some tools include <a href="https://fastlane.tools/">Fastlane</a>, <a href="https://cocoapods.org/">Cocoapods</a>, <a href="https://github.com/nomad/shenzhen">Shenzhen</a>, and current build scripts that use <code>xcodebuild</code>, <code>xcrun</code>, or other Xcode binaries (which also includes <code>git</code>).</p>
-
-<h3>
-<a id="choosing-the-xcode-version" class="anchor" href="#choosing-the-xcode-version" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Choosing the Xcode Version</h3>
-
-<p>When you execute a shim, xcenv determines which Xcode version to use by reading it from the following sources, in this order:</p>
-
-<ol>
-<li><p>If <code>DEVELOPER_DIR</code> is defined, as environment or shell variable, that value will be respected and not overriden.</p></li>
-<li><p>If <code>XCENV_VERSION</code> is defined, as environemnt or shell variable, that value will be used to find the matching Xcode app bundle. This can be set using the <code>xcenv shell</code> command</p></li>
-<li><p>The first <code>.xcode-version</code> file found by searching the current working directory and each of its parent directories until reaching the root of your filesystem. You can modify the <code>.xcode-version</code> file in the current working directory with the <code>xcenv local</code> command.</p></li>
-<li><p>The global ~/.xcenv/.xcode-version file. You can modify this file using the <code>xcenv global</code> command. If the global version file is not present, xcenv assumes you want to use the "system" Xcode—i.e. whatever is returned by xcode-select -p.</p></li>
-</ol>
-
-<h3>
-<a id="xcode-version" class="anchor" href="#xcode-version" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Xcode Version</h3>
-
-<p>Xcenv supports multiple value types for the .xcode-version file.</p>
-
-<p>You can set the value to the specific version desired, which will only match the specific version.</p>
-
-<pre><code>7.3.1
-</code></pre>
-
-<p>You can set the value with a regular expression. This example will match any 7.3 or 7.3.x app bundles.</p>
-
-<pre><code>7.3+
-</code></pre>
-
-<h3>
-<a id="finding-xcodeapp" class="anchor" href="#finding-xcodeapp" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Finding Xcode.app</h3>
-
-<p>Xcenv searches in /Applications for any .app bundle that has the CFBundleName Xcode and then compares the version number against the value found in the above section manner.</p>
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/xcenv">xcenv</a></p>
