@@ -28,21 +28,27 @@
         </ul>
       </header>
       <section>
-        <p><a href="https://travis-ci.org/xcenv/xcenv"><img src="https://travis-ci.org/xcenv/xcenv.svg?branch=master" alt="Build Status"></a></p>
-
-<h1>
-<a id="groom-your-xcode-environment-with-xcenv" class="anchor" href="#groom-your-xcode-environment-with-xcenv" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Groom your Xcode environment with xcenv.</h1>
-
-<p>Use xcenv to document and manage the Xcode version for your project and system. When working on multiple projects, it is often needed to support older versions of Xcode. Managing multiple Xcodes can be a problem when executing builds on the command line.</p>
-
-<p>The current solutions require setting the values with <code>xcode-select</code>, using the path to the desired Xcode.app file. Additional solutions include setting <code>DEVELOPER_DIR</code> value to the desired Xcode.app path.</p>
-
-<p>While these solutions work, it requires a team to use the same Xcode.app naming scheme, which can conflict from team to team. One team may desire Xcode.app to be version 6.4 and another may want it to be latest app store build. Alternatively one team may want Xcode7.2.app and another may want Xcode_7_2.app. For this reason xcenv uses the version number to synchronize this required toolset for a project. </p>
-
-<p>This active documentation will help your team make sure they have the right tool to build the project. Additionaly this file can be tracked in the source code changes, and therefore will be tracked. So as your project changes Xcode versions, it can be tracked. Going back to a previous commit will warn you if it may not compile with the current tools installed.</p>
-
-<h2>
+        <h2>
 <a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h2>
+
+<h3>
+<a id="homebrew" class="anchor" href="#homebrew" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Homebrew</h3>
+
+<p>To install xcenv (stable)</p>
+
+<pre><code>$ brew install xcenv
+</code></pre>
+
+<p>To install xcenv (cutting-edge)</p>
+
+<pre><code>    $ brew tap --full xcenv/xcenv
+$ brew update
+</code></pre>
+
+<p>Follow the instructions after installing, by copying the following to shell profile:</p>
+
+<pre><code>eval "$(xcenv init -)"
+</code></pre>
 
 <h3>
 <a id="basic-git-installation" class="anchor" href="#basic-git-installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Basic Git Installation</h3>
@@ -56,21 +62,6 @@
 
 <pre><code>export PATH="$HOME/.xcenv/bin:$PATH"
 eval "$(xcenv init -)"
-</code></pre>
-
-<h3>
-<a id="homebrew" class="anchor" href="#homebrew" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Homebrew</h3>
-
-<p>To install xcenv</p>
-
-<pre><code>$ brew tap --full xcenv/xcenv
-$ brew update
-$ brew install xcenv
-</code></pre>
-
-<p>Follow the instructions after installing, by copying the following to shell profile:</p>
-
-<pre><code>eval "$(xcenv init -)"
 </code></pre>
 
 <h2>
