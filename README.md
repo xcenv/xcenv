@@ -25,7 +25,7 @@ This active documentation will help your team make sure they have the right tool
   * [xcenv shell](#xcenv-shell)
   * [xcenv version](#xcenv-version)
   * [xcenv rehash](#xcenv-rehash)
-* [TODO](#todo)
+* [Environment Variables](#environment-variables)
 
 ## How It Works
 
@@ -147,3 +147,21 @@ Displays the current active Xcode version.
 Install shims for all Xcode binaries in the /usr/bin folder. The shim files will temporarily set `DEVELOPER_DIR` before calling the real `/usr/bin/${command}`
 
 	$ xcenv rehash
+
+## Environment Variables
+
+### XCENV_ROOT
+
+If you want to change where all the shims and global settings are set for xcenv, you can use the XCENV_ROOT environment variable to do so. By default the value is set to `XCENV_ROOT="${HOME}/.xcenv"`.
+
+If you absolutely need to store everything under Homebrew's prefix, include this in your profile:
+
+	export XCENV_ROOT=#{var}/xcenv
+
+### XCENV_DO_NOT_SHIM_LIST
+
+Sometimes you don't want xcenv to shim a tool. One example is if you prefer to use the latest git from [homebrew](http://brew.sh/).
+
+To exclude a file from being shimmed, set the XCENV_DO_NOT_SHIM_LIST to a list of space delimited filenames in your profile:
+
+	export XCENV_DO_NOT_SHIM_LIST="git c++"
