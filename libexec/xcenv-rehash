@@ -4,7 +4,9 @@
 set -e
 [ -n "$XCENV_DEBUG" ] && set -x
 
-DO_NOT_SHIM_LIST=("xcode-select")
+XCENV_SHIM_LIST=("BuildStrings CpMac DeRez GetFileInfo MergePef MvMac ResMerger Rez RezDet RezWack SetFile SplitForks UnRezWack agvtool ar as asa atos bison c++ c89 c99 cc clang clang++ cmpdylib codesign_allocate cpp ctags ctf_insert desdp dsymutil dwarfdump filtercalltree flex flex++ g++ gatherheaderdoc gcc gcov genstrings git git-cvsserver git-receive-pack git-shell git-upload-archive git-upload-pack gm4 gnumake gperf hdxml2manxml headerdoc2html heap ibtool ictool indent install_name_tool instruments iprofiler ld leaks lex libtool lipo lldb llvm-g++ llvm-gcc lorder m4 make malloc_history man manpath mig mkdep nasm ndisasm nm nmedit opendiff otool pagestuff ranlib rebase redo_prebinding resolveLinks rpcgen sample sdef sdp segedit size stringdups strings strip svn svnadmin svndumpfilter svnlook svnserve svnsync svnversion swift swiftc symbols unifdef unifdefall vmmap xcodebuild xcrun xed xml2man yacc")
+
+XCENV_DO_NOT_SHIM_LIST=" $XCENV_DO_NOT_SHIM_LIST xcode-select "
 
 READLINK=$(type -p greadlink readlink | head -1)
 [ -n "$READLINK" ] || abort "cannot find readlink - are you missing GNU coreutils?"
@@ -39,17 +41,15 @@ if [ ! -d "$USR_BIN" ]; then
   exit 1
 fi
 
-FILES_NOT_SHIMMED=`diff -qr "${XCENV_ROOT}/shims" "$USR_BIN" 2> /dev/null | grep "^Only in $USR_BIN:" | cut -d: -f2-`
+for FILE_TO_SHIM in $XCENV_SHIM_LIST
+do
+  	[[ ! $XCENV_DO_NOT_SHIM_LIST =~ " $FILE_TO_SHIM " ]] && \
+      [ -f "$USR_BIN/${FILE_TO_SHIM}" ] && \
+      [ ! -f "${SHIM_PATH}/${FILE_TO_SHIM}" ] && \
+      ln -s "${bin_path}/.shim" "${SHIM_PATH}/${FILE_TO_SHIM}"
+done
 
-if [ -n "$FILES_NOT_SHIMMED" ]; then
-  for FILE_TO_SHIM in $(cd "$USR_BIN"; LC_ALL=C grep -l "libxcselect.dylib" $FILES_NOT_SHIMMED 2>/dev/null)
-  do
-  	[[ ! $DO_NOT_SHIM_LIST =~ $FILE_TO_SHIM ]] && \
-      ln -s "${bin_path}/.shim" "${SHIM_PATH}/$(basename $FILE_TO_SHIM)"
-  done
-fi
-
-for FILE_NOT_TO_SHIM in $DO_NOT_SHIM_LIST
+for FILE_NOT_TO_SHIM in $XCENV_DO_NOT_SHIM_LIST
 do
   if [ -f "${SHIM_PATH}/${FILE_NOT_TO_SHIM}" ]; then
     rm "${SHIM_PATH}/${FILE_NOT_TO_SHIM}"
