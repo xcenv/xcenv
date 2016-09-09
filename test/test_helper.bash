@@ -1,4 +1,5 @@
 unset XCENV_VERSION
+unset XCENV_DIR
 
 # guard against executing this block twice due to bats internals
 if [ -z "$XCENV_TEST_DIR" ]; then
