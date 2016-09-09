@@ -8,6 +8,14 @@
 set -e
 [ -n "$XCENV_DEBUG" ] && set -x
 
+# Provide xcenv completions
+if [ "$1" = "--complete" ]; then
+  echo --unset
+  echo system
+  exec xcenv-versions
+  exit
+fi
+
 XCENV_VERSION="$1"
 
 XCENV_VERSION_FILE="${XCENV_ROOT}/.xcode-version"

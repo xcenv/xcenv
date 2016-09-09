@@ -4,6 +4,16 @@
 set -e
 [ -n "$XCENV_DEBUG" ] && set -x
 
+# Provide xcenv completions
+if [ "$1" = "--complete" ]; then
+  echo -
+  echo bash
+  echo fish
+  echo ksh
+  echo zsh
+  exit
+fi
+
 print=""
 for args in "$@"
 do
@@ -78,6 +88,14 @@ fish )
   echo "export XCENV_SHELL=$shell"
 ;;
 esac
+
+completion="${root}/completions/xcenv.${shell}"
+if [ -r "$completion" ]; then
+  case "$shell" in
+  fish ) echo ". '$completion'" ;;
+  *    ) echo "source '$completion'" ;;
+  esac
+fi
 
 echo 'command xcenv rehash 2>/dev/null'
 

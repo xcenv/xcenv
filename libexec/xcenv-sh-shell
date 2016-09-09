@@ -8,6 +8,14 @@
 set -e
 [ -n "$XCENV_DEBUG" ] && set -x
 
+# Provide xcenv completions
+if [ "$1" = "--complete" ]; then
+  echo --unset
+  echo system
+  exec xcenv-versions
+  exit
+fi
+
 version="$1"
 
 shell="$(basename "${XCENV_SHELL:-$SHELL}")"

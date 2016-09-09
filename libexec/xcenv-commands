@@ -5,6 +5,13 @@
 set -e
 [ -n "$XCENV_DEBUG" ] && set -x
 
+# Provide xcenv completions
+if [ "$1" = "--complete" ]; then
+  echo --sh
+  echo --no-sh
+  exit
+fi
+
 if [ "$1" = "--sh" ]; then
   sh=1
   shift
