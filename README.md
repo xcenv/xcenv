@@ -17,6 +17,7 @@ This active documentation will help your team make sure they have the right tool
   * [Choosing the Xcode Version](#choosing-the-xcode-version)
   * [Xcode Version](#xcode-version)
   * [Finding Xcode.app](#finding-xcode.app)
+  * [Plugins](#plugins)
 * [Installation](#installation)
   * [Manual Installation](#manual_installation)
 * [Command Reference](#command-reference)
@@ -61,7 +62,11 @@ You can set the value with a regular expression. This example will match any 7.3
 
 ### Finding Xcode.app
 
-Xcenv searches in /Applications for any .app bundle that has the CFBundleName Xcode and then compares the version number against the value found in the above section manner.
+Xcenv uses Spotlight with the command `mdfind "kMDItemCFBundleIdentifier == 'com.apple.dt.Xcode'"` to search for any .app bundle with the identifier that matches Xcodes
+
+### Plugins
+
+Xcenv supports the ability to add commands via plugins. [More Details To Come.]
 
 ## Installation
 
