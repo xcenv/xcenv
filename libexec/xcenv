@@ -49,6 +49,15 @@ else
 fi
 export XCENV_ROOT
 
+if [ -z "${XCENV_DIR}" ]; then
+  XCENV_DIR="$PWD"
+else
+  cd "XCENV_DIR" 2>/dev/null || abort "cannot change working directory to \`$XCENV_DIR'"
+  XCENV_DIR="$PWD"
+  cd "$OLDPWD"
+fi
+export XCENV_DIR
+
 bin_path="$(abs_dirname "$0")"
 export PATH="${bin_path}:${PATH}"
 

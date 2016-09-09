@@ -55,3 +55,13 @@ run_command() {
   
   assert_failure ""
 }
+
+@test "version-file will prefer XCENV_DIR over PWD" {
+  touch ".xcode-version"
+  mkdircd "some/child/down/further"
+  touch ".xcode-version"
+  
+  XCENV_DIR=$XCENV_TEST_TEMP run_command
+  
+  assert_output "$XCENV_TEST_TEMP/.xcode-version"
+}
