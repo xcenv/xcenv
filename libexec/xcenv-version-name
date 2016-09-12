@@ -19,24 +19,24 @@ else
 fi
 
 if [ -z "$XCENV_VERSION" ] || [ "$XCENV_VERSION" = "system" ]; then
-  return_xcenv_version $(xcode-select -p)
+  return_xcenv_version "$(xcode-select -p)"
 fi
 
 find_xcode_app_from_version()
 {
-	XCODE_VERSION=$1
-	
-	XCODE_LOCATIONS=$(xcenv-xcodes)
-	XCODE_VERSIONS=()
-  
-	for APP in $XCODE_LOCATIONS; do
-		VERSION=$(xcenv-xcode-version $APP)
-		XCODE_VERSIONS+=("${VERSION}-${APP}")
-	done
-  
+  XCODE_VERSION=$1
+
+  XCODE_LOCATIONS=$(xcenv-xcodes)
+  XCODE_VERSIONS=()
+
   IFS=$'\n'
+
+  for APP in $XCODE_LOCATIONS; do
+  	VERSION=$(xcenv-xcode-version "$APP")
+  	XCODE_VERSIONS+=("${VERSION}-${APP}")
+  done
+  
   XCODE_VERSIONS=($(sort -r <<<"${XCODE_VERSIONS[*]}"))
-  unset IFS
   
   for VERSION in ${XCODE_VERSIONS[*]}; do
     APP_VERSION=${VERSION/-*/}
@@ -46,15 +46,17 @@ find_xcode_app_from_version()
 	  	break;
 	  fi
   done
+  
+  unset IFS
 	
-	echo $XCODE_APP
+  echo "$XCODE_APP"
 }
 
 if [ -d "$XCENV_VERSION" ]; then
   return_xcenv_version "$XCENV_VERSION"
 fi
 
-XCODE_APP=$(find_xcode_app_from_version $XCENV_VERSION)
+XCODE_APP="$(find_xcode_app_from_version "$XCENV_VERSION")"
 if [ -n "$XCODE_APP" ]; then
   return_xcenv_version "${XCODE_APP}"
 elif [ -n "$1" ]; then

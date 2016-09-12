@@ -24,11 +24,11 @@ expect_executable_parameter() {
 }
 
 stub_executable_failure() {
-  EXECUTABLE=$1
-  MESSAGE=$2
+  EXECUTABLE="$1"
+  MESSAGE="$2"
   
   if [ -n "$3" ]; then
-    FAIL_CODE=$3
+    FAIL_CODE="$3"
   else
     FAIL_CODE=1
   fi
@@ -41,8 +41,8 @@ stub_executable_failure() {
 }
 
 stub_executable_success() {
-  EXECUTABLE=$1
-  MESSAGE=$2
+  EXECUTABLE="$1"
+  MESSAGE="$2"
   
   if [ -n "$MESSAGE" ]; then
     stub_executable $EXECUTABLE "echo $MESSAGE"
@@ -52,8 +52,8 @@ stub_executable_success() {
 }
 
 stub_executable() {
-  EXECUTABLE=$1
-  CODE=$2
+  EXECUTABLE="$1"
+  CODE="$2"
   
   STUB_PATH=$(stub_path $EXECUTABLE)
   echo -n "$CODE" >> "$STUB_PATH"
@@ -61,7 +61,11 @@ stub_executable() {
 }
 
 stub_list_of_xcodes() {
-  stub_executable_success "xcenv-xcodes" "Xcode.app Xcode6.3.app Xcode6.4.app Xcode7.2.app Xcode-beta.app"
+  stub_executable "xcenv-xcodes" "echo Xcode.app
+    echo Xcode6.3.app
+    echo Xcode6.4.app
+    echo Xcode7.2.app
+    echo Xcode-beta.app"
   
   CODE=`cat <<fi
     if [ "\\$1" = "Xcode.app" ]; then
@@ -74,6 +78,8 @@ stub_list_of_xcodes() {
       echo "7.2"
     elif [ "\\$1" = "Xcode-beta.app" ]; then
       echo "8.0b"
+    else
+      echo "Unkown app: \\$1"
     fi
   `
   stub_executable "xcenv-xcode-version" "$CODE"
