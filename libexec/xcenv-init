@@ -38,20 +38,26 @@ if [ -z "$print" ]; then
   case "$shell" in
   bash )
     if [ -f "${HOME}/.bashrc" ] && [ ! -f "${HOME}/.bash_profile" ]; then
+      # shellcheck disable=SC2088
       profile='~/.bashrc'
     elif [ -f "${HOME}/.bash_profile" ]; then
+      # shellcheck disable=SC2088
       profile='~/.bash_profile'
     else
+      # shellcheck disable=SC2088
 	  profile='~/.profile'
     fi
     ;;
   zsh )
+    # shellcheck disable=SC2088
     profile='~/.zshrc'
     ;;
   ksh )
+    # shellcheck disable=SC2088
     profile='~/.profile'
     ;;
   fish )
+    # shellcheck disable=SC2088
     profile='~/.config/fish/config.fish'
     ;;
   * )
@@ -67,7 +73,7 @@ if [ -z "$print" ]; then
       echo 'status --is-interactive; and . (xcenv init -|psub)'
       ;;
     * )
-      echo 'eval "$(xcenv init -)"'
+      echo "eval \"\$(xcenv init -)\""
       ;;
     esac
     echo
@@ -84,7 +90,7 @@ fish )
   echo "setenv XCENV_SHELL $shell"
 ;;
 * )
-  echo 'export PATH="'${XCENV_ROOT}'/shims:${PATH}"'
+  echo "export PATH=\"${XCENV_ROOT}/shims:\${PATH}\""
   echo "export XCENV_SHELL=$shell"
 ;;
 esac
@@ -99,7 +105,7 @@ fi
 
 echo 'command xcenv rehash 2>/dev/null'
 
-commands=(`xcenv-commands --sh`)
+commands=($(xcenv-commands --sh))
 case "$shell" in
 fish )
   cat <<EOS
