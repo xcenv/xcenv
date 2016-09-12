@@ -21,7 +21,7 @@ XCENV_VERSION="$1"
 XCENV_VERSION_FILE="${XCENV_ROOT}/.xcode-version"
 
 if [ "$XCENV_VERSION" = "--unset" ]; then
-  rm -f $XCENV_VERSION_FILE
+  rm -f "$XCENV_VERSION_FILE"
 elif [ -n "$XCENV_VERSION" ]; then
   xcenv-version-file-write "$XCENV_VERSION_FILE" "$XCENV_VERSION"
 else

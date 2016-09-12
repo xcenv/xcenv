@@ -1,4 +1,10 @@
 sudo: false
+addons:
+  apt:
+    sources:
+    - debian-sid
+    packages:
+    - shellcheck
 install: git clone --depth 1 https://github.com/sstephenson/bats.git
-script: PATH="./bats/bin:$PATH" test/run
-language: c
+script: PATH="./bats/bin:$PATH" test/run; shellcheck bin/xcenv libexec/*
+language: bash

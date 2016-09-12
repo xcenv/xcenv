@@ -29,7 +29,7 @@ run_command() {
 
   expect_executable_parameter "open" 1 "-a"
   expect_executable_parameter "open" 2 "Xcode.app"
-  expect_executable_parameter "open" 3 "test.xcworkspace"
+  expect_executable_parameter "open" 3 "./test.xcworkspace"
 
   run_command
 }
@@ -41,7 +41,7 @@ run_command() {
 
   expect_executable_parameter "open" 1 "-a"
   expect_executable_parameter "open" 2 "Xcode.app"
-  expect_executable_parameter "open" 3 "test.xcodeproj"
+  expect_executable_parameter "open" 3 "./test.xcodeproj"
 
   run_command
 }

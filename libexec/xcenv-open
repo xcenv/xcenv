@@ -8,11 +8,11 @@
 PROJECT=$1
 
 if [ -z "$PROJECT" ]; then
-  PROJECT=$(find *.xcworkspace 2>/dev/null)
+  PROJECT=$(find ./*.xcworkspace 2>/dev/null)
 fi
 
 if [ "$PROJECT" = "" ]; then
-  PROJECT=$(find *.xcodeproj 2>/dev/null)
+  PROJECT=$(find ./*.xcodeproj 2>/dev/null)
 fi
 
 open -a "$(xcenv-version-name)" "$PROJECT"

@@ -3,10 +3,10 @@
 XCODE_DEVELOPER_DIR="$DEVELOPER_DIR"
 if [ -z "$XCODE_DEVELOPER_DIR" ]; then
     if [ -n "$(which xcenv)" ]; then
-	    XCODE_DEVELOPER_DIR="$(xcenv version-name $XCENV_VERSION)/Contents/Developer"
+	    XCODE_DEVELOPER_DIR=$(xcenv version-name "$XCENV_VERSION")/Contents/Developer
     else
-        XCODE_DEVELOPER_DIR="$(xcode-select -p)"
+        XCODE_DEVELOPER_DIR=$(xcode-select -p)
     fi
 fi
 
-DEVELOPER_DIR="$XCODE_DEVELOPER_DIR" /usr/bin/$(basename $0) "$@"
+DEVELOPER_DIR="$XCODE_DEVELOPER_DIR" "/usr/bin/$(basename "$0")" "$@"

@@ -4,4 +4,4 @@
 set -e
 [ -n "$XCENV_DEBUG" ] && set -x
 
-echo $(mdfind "kMDItemCFBundleIdentifier == 'com.apple.dt.Xcode'")
+mdfind "kMDItemCFBundleIdentifier == 'com.apple.dt.Xcode'"
