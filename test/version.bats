@@ -18,3 +18,13 @@ run_command() {
   run_command
   assert_output "/Applications/Xcode.app (set by ../.xcode-version)"
 }
+
+@test "version handles environment variable" {
+  export XCENV_VERSION=1.2.3
+  stub_executable_success "xcenv-version-name" "/Applications/Xcode.app"
+  
+  run_command
+  assert_output "/Applications/Xcode.app (set by XCENV_VERSION environment variable)"
+  
+  unset XCENV_VERSION
+}

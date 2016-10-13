@@ -11,11 +11,13 @@ return_xcenv_version()
 set -e
 [ -n "$XCENV_DEBUG" ] && set -x
 
-if [ -n "$1" ]; then
-  XCENV_VERSION=$1
-else
-  XCENV_VERSION_FILE="$(xcenv-version-file)"
-  XCENV_VERSION="$(xcenv-version-file-read "$XCENV_VERSION_FILE" || true)"
+if [ -z "$XCENV_VERSION" ]; then
+  if [ -n "$1" ]; then
+    XCENV_VERSION=$1
+  else
+    XCENV_VERSION_FILE="$(xcenv-version-file)"
+    XCENV_VERSION="$(xcenv-version-file-read "$XCENV_VERSION_FILE" || true)"
+  fi
 fi
 
 if [ -z "$XCENV_VERSION" ] || [ "$XCENV_VERSION" = "system" ]; then
