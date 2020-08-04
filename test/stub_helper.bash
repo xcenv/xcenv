@@ -65,7 +65,8 @@ stub_list_of_xcodes() {
     echo Xcode6.3.app
     echo Xcode6.4.app
     echo Xcode7.2.app
-    echo Xcode-beta.app"
+    echo Xcode-beta.app
+    echo Xcode11.app"
   
   CODE=`cat <<fi
     if [ "\\$1" = "Xcode.app" ]; then
@@ -78,8 +79,10 @@ stub_list_of_xcodes() {
       echo "7.2"
     elif [ "\\$1" = "Xcode-beta.app" ]; then
       echo "8.0b"
+    elif [ "\\$1" = "Xcode11.app" ]; then
+      echo "11.0"
     else
-      echo "Unkown app: \\$1"
+      echo "Unknown app: \\$1"
     fi
   `
   stub_executable "xcenv-xcode-version" "$CODE"

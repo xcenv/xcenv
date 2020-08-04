@@ -65,6 +65,16 @@ run_command() {
   assert_failure "xcenv: version \`5.0' is not installed"
 }
 
+@test "version-name strips .0 from a X.X.0 version if corresponding Xcode can't be found" {
+  run_command 7.2.0
+  assert_output "Xcode7.2.app"
+}
+
+@test "version-name doesn't strip .0 from a X.0 version" {
+  run_command 11.0
+  assert_output "Xcode11.app"
+}
+
 @test "version-name returns error if not found and set by xcode-version file" {
   stub_executable_success "xcenv-version-file" ".xcode-version"
   stub_executable_success "xcenv-version-file-read" "5.0"
