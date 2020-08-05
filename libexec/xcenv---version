@@ -4,6 +4,6 @@
 set -e
 [ -n "$XCENV_DEBUG" ] && set -x
 
-version="1.1.0"
+version="1.2.0"
 
 echo "xcenv $version"
