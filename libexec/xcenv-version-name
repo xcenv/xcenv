@@ -61,10 +61,24 @@ fi
 XCODE_APP="$(find_xcode_app_from_version "$XCENV_VERSION")"
 if [ -n "$XCODE_APP" ]; then
   return_xcenv_version "${XCODE_APP}"
-elif [ -n "$1" ]; then
-  echo "xcenv: version \`$XCENV_VERSION' is not installed" >&2
-  exit 1
 else
-  echo "xcenv: version \`$XCENV_VERSION' is not installed (set by $(xcenv-version-origin))" >&2
-  exit 1
+  # If the specified version is formatted as X.X.0, strip the final .0 and re-check whether
+  # an installed Xcode version exists
+  if [[ "$XCENV_VERSION" =~ ^([1-9][0-9]*\.)([0-9]*)(\.0)$ ]]; then
+    STRIPPED_XCENV_VERSION=${XCENV_VERSION:0:$((${#XCENV_VERSION} - 2))}
+    XCODE_APP="$(find_xcode_app_from_version "$STRIPPED_XCENV_VERSION")"
+
+    if [ -n "$XCODE_APP" ]; then
+      return_xcenv_version "${XCODE_APP}"
+      exit 0
+    fi
+  fi
+
+  if [ -n "$1" ]; then
+    echo "xcenv: version \`$XCENV_VERSION' is not installed" >&2
+    exit 1
+  else
+    echo "xcenv: version \`$XCENV_VERSION' is not installed (set by $(xcenv-version-origin))" >&2
+    exit 1
+  fi
 fi
